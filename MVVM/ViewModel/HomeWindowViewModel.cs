@@ -1,4 +1,5 @@
 ﻿using AVGECTSGrade.MVVM.Model;
+using AVGECTSGrade.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,7 +67,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
         public void CreateNewFileCommandExecute()
         {
-
+            NewFileWindow newFileWindow = new NewFileWindow();
+            newFileWindow.Focus();
+            newFileWindow.ShowDialog();
         }
         public void OpenExistingFileCommandExecute()
         {

@@ -26,11 +26,11 @@
                 <MenuItem Header="Exit" />
             </MenuItem>
         </Menu>
-        
+
         <StackPanel DockPanel.Dock="Bottom" Background="{DynamicResource WindowFooterBarColor}">
             <TextBlock Text="Project: TheBestCypress" Padding="5" Foreground="{DynamicResource ControlFooterTextColour}"></TextBlock>
         </StackPanel>
-        
+
         <Grid Visibility="{Binding InitialDialogVisibility}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label HorizontalAlignment="Center" Margin="0 0 0 30">
