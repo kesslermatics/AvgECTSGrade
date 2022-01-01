@@ -4304,7 +4304,6 @@
     <!-- Custom Window style (unaffected by win32 style stuff) -->
 
     <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
-        <Setter Property="Icon" Value="Logos/Logo_DarkMode.ico" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBorderColour}" />
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>

@@ -3,10 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View"
+        xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Home" Height="450" Width="800">
-    <Grid>
+        Title="AvgECTSGrade Calculator" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
+        Style="{DynamicResource CustomWindowStyle}" WindowStyle="None" >
+    <Window.DataContext>
+        <vm:HomeViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+
+            <MenuItem Header="File" Height="AUTO" Padding="10,10,10,10">
+                <MenuItem Header="New" Command="{Binding CreateNewFileCommand}"/>
+                <MenuItem Header="Open" Command="{Binding OpenExistingFileCommand}" InputGestureText="CTRL+O"/>
+                <Separator />
+                <MenuItem Header="Save" InputGestureText="CTRL+S" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Close File" InputGestureText="CTRL+S" IsEnabled="False"/>
+                <Separator />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+        </Menu>
         
-    </Grid>
+        <StackPanel DockPanel.Dock="Bottom" Background="{DynamicResource WindowFooterBarColor}">
+            <TextBlock Text="Project: TheBestCypress" Padding="5" Foreground="{DynamicResource ControlFooterTextColour}"></TextBlock>
+        </StackPanel>
+        
+        <Grid Visibility="{Binding InitialDialogVisibility}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label HorizontalAlignment="Center" Margin="0 0 0 30">
+                    <iconPacks:Modern Kind="Calculator" Height="80" Width="80"/>
+                </Label>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button Padding="5 0 5 0" FontSize="30" Command="{Binding CreateNewFileCommand}">Create</Button>
+                    <Label FontSize="30"> a New File or </Label>
+                    <Button Padding="5 0 5 0" FontSize="30" Command="{Binding OpenExistingFileCommand}">Open</Button>
+                    <Label FontSize="30">an Existing one</Label>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
