@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="AvgECTSGrade Calculator" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Title="Average ECTS-Grade Calculator" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
         Style="{DynamicResource CustomWindowStyle}" WindowStyle="None" >
     <Window.DataContext>
-        <vm:HomeViewModel/>
+        <vm:HomeWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -40,7 +40,7 @@
                     <Button Padding="5 0 5 0" FontSize="30" Command="{Binding CreateNewFileCommand}">Create</Button>
                     <Label FontSize="30"> a New File or </Label>
                     <Button Padding="5 0 5 0" FontSize="30" Command="{Binding OpenExistingFileCommand}">Open</Button>
-                    <Label FontSize="30">an Existing one</Label>
+                    <Label FontSize="30"> an Existing One</Label>
                 </StackPanel>
             </StackPanel>
         </Grid>

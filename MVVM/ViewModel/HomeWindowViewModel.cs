@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
 {
-    internal class HomeViewModel : INotifyPropertyChanged
+    internal class HomeWindowViewModel : INotifyPropertyChanged
     {
         private Visibility initialDialogVisibility;
 
@@ -52,7 +52,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
             }
         }
 
-        public HomeViewModel()
+        public HomeWindowViewModel()
         {
             InitialDialogVisibility = Visibility.Visible;
         }
