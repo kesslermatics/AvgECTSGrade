@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
@@ -73,7 +74,12 @@ namespace AVGECTSGrade.MVVM.ViewModel
         }
         public void OpenExistingFileCommandExecute()
         {
-
+            OpenFileDialog folderBrowserDialog = new OpenFileDialog();
+            DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                
+            }
         }
     }
 }
