@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="Create A New File" SizeToContent="Height" ResizeMode="NoResize" Width="800" Style="{DynamicResource CustomWindowStyleWithoutToolBar}" WindowStyle="SingleBorderWindow">
-    <Window.DataContext>
-        <vm:NewFileWindowViewModel/>
-    </Window.DataContext>
+    
     <StackPanel>
         <TextBlock FontSize="26" Margin="10">Please Enter Following Information</TextBlock>
         <Separator Margin="10"></Separator>
@@ -26,19 +24,19 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Enter Your Name" VerticalAlignment="Center" Padding="10"></TextBlock>
-            <TextBox Grid.Row="0" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
+            <TextBox Text="{Binding nameText}" Grid.Row="0" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="What Do You Study?" VerticalAlignment="Center" Padding="10"></TextBlock>
-            <TextBox Grid.Row="1" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
+            <TextBox Text="{Binding studyText}" Grid.Row="1" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Enter File Name" VerticalAlignment="Center" Padding="10"></TextBlock>
-            <TextBox Grid.Row="2" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
+            <TextBox Text="{Binding fileNameText}" Grid.Row="2" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Enter File Path" VerticalAlignment="Center" Padding="10"></TextBlock>
-            <TextBox Grid.Row="3" Grid.Column="1" Padding="10" Margin="10 10 10 10" Text="{Binding FilePathText}"></TextBox>
+            <TextBox Text="{Binding FilePathText}" Grid.Row="3" Grid.Column="1" Padding="10" Margin="10 10 10 10"></TextBox>
             <Button Command="{Binding EnterFilePathButtonCommand}" Height="40" Width="40" Grid.Row="3" Grid.Column="2" Margin="10 10 10 10">...</Button>
         </Grid>
         <Separator Margin="10"></Separator>
         <StackPanel Orientation="Horizontal">
-            <Button Padding="10" Margin="10" Width="100">Cancel</Button>
-            <Button Padding="10" Margin="10" Width="100">Finish</Button>
+            <Button Command="{Binding CancelButtonCommand}" Padding="10" Margin="10" Width="100">Cancel</Button>
+            <Button Command="{Binding FinishButtonCommand}" Padding="10" Margin="10" Width="100">Finish</Button>
         </StackPanel>
     </StackPanel>
 </Window>

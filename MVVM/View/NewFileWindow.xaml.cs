@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AVGECTSGrade.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace AVGECTSGrade.MVVM.View
         public NewFileWindow()
         {
             InitializeComponent();
+            this.DataContext = new NewFileWindowViewModel(this);
         }
     }
 }

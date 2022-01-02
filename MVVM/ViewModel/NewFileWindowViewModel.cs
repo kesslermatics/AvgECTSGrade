@@ -1,4 +1,5 @@
 ﻿using AVGECTSGrade.MVVM.Model;
+using AVGECTSGrade.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,16 @@ namespace AVGECTSGrade.MVVM.ViewModel
     internal class NewFileWindowViewModel : INotifyPropertyChanged
     {
         private ICommand enterFilePathButtonCommand;
+        private ICommand cancelButtonCommand;
+        private ICommand finishButtonCommand;
         private String filePathText;
+        private NewFileWindow newFileWindow;
+
+        public NewFileWindowViewModel(NewFileWindow newFileWindow)
+        {
+            this.newFileWindow = newFileWindow;
+        }
+
         public ICommand EnterFilePathButtonCommand
         {
             get
@@ -21,6 +31,21 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 return enterFilePathButtonCommand ?? (enterFilePathButtonCommand = new CommandHandler(() => EnterFilePathCommandExecute(), () => CanExecuteTrue));
             }
         }
+        public ICommand CancelButtonCommand
+        {
+            get
+            {
+                return cancelButtonCommand ?? (cancelButtonCommand = new CommandHandler(() => CancelButtonCommandExecute(), () => CanExecuteTrue));
+            }
+        }
+        public ICommand FinishButtonCommand
+        {
+            get
+            {
+                return finishButtonCommand ?? (finishButtonCommand = new CommandHandler(() => FinishButtonCommandExecute(), () => CanExecuteTrue));
+            }
+        }
+
 
         public bool CanExecuteTrue
         {
@@ -48,6 +73,15 @@ namespace AVGECTSGrade.MVVM.ViewModel
             {
                 FilePathText = folderBrowserDialog.SelectedPath;
             }
+        }
+
+        public void CancelButtonCommandExecute()
+        {
+            newFileWindow.Close();
+        }
+        public void FinishButtonCommandExecute()
+        {
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
