@@ -16,12 +16,19 @@ namespace AVGECTSGrade.MVVM.ViewModel
         private ICommand enterFilePathButtonCommand;
         private ICommand cancelButtonCommand;
         private ICommand finishButtonCommand;
+        private String nameText;
+        private String studyText;
+        private String fileNameText;
         private String filePathText;
         private NewFileWindow newFileWindow;
 
         public NewFileWindowViewModel(NewFileWindow newFileWindow)
         {
             this.newFileWindow = newFileWindow;
+            NameText = "";
+            StudyText = "";
+            FileNameText = "";
+            FilePathText = "";
         }
 
         public ICommand EnterFilePathButtonCommand
@@ -42,16 +49,51 @@ namespace AVGECTSGrade.MVVM.ViewModel
         {
             get
             {
-                return finishButtonCommand ?? (finishButtonCommand = new CommandHandler(() => FinishButtonCommandExecute(), () => CanExecuteTrue));
+                return finishButtonCommand ?? (finishButtonCommand = new CommandHandler(() => FinishButtonCommandExecute(), () => FinishCanExecute));
             }
         }
-
-
         public bool CanExecuteTrue
         {
             get
             {
                 return true;
+            }
+        }
+        public bool FinishCanExecute
+        {
+            get
+            {
+                return (!NameText.Equals("") && !StudyText.Equals("") && !FileNameText.Equals("") && !FilePathText.Equals(""));
+            }
+        }
+        public String NameText
+        {
+            get { return nameText; }
+
+            set
+            {
+                nameText = value;
+                NotifyPropertyChanged("NameText");
+            }
+        }
+        public String StudyText
+        {
+            get { return studyText; }
+
+            set
+            {
+                studyText = value;
+                NotifyPropertyChanged("StudyText");
+            }
+        }
+        public String FileNameText
+        {
+            get { return fileNameText; }
+
+            set
+            {
+                fileNameText = value;
+                NotifyPropertyChanged("FileNameText");
             }
         }
         public String FilePathText
