@@ -78,7 +78,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
             DialogResult result = folderBrowserDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                
+                SubjectList.Instance.addSubject(new Subject("AI", 10));
+                SubjectList.Instance.addSubject(new Subject("SE", 15));
+                SubjectList.Instance.addSubject(new Subject("MI", 1));
             }
         }
     }
