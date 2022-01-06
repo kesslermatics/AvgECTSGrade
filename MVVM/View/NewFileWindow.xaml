@@ -27,8 +27,6 @@
             <TextBox Text="{Binding NameText}" Grid.Row="0" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="What Do You Study?" VerticalAlignment="Center" Padding="10"></TextBlock>
             <TextBox Text="{Binding StudyText}" Grid.Row="1" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Enter File Name" VerticalAlignment="Center" Padding="10"></TextBlock>
-            <TextBox Text="{Binding FileNameText}" Grid.Row="2" Grid.Column="1" Padding="10" Margin="10 10 10 10" Grid.ColumnSpan="2"></TextBox>
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Enter File Path" VerticalAlignment="Center" Padding="10"></TextBlock>
             <TextBox Text="{Binding FilePathText}" Grid.Row="3" Grid.Column="1" Padding="10" Margin="10 10 10 10"></TextBox>
             <Button Command="{Binding EnterFilePathButtonCommand}" Height="40" Width="40" Grid.Row="3" Grid.Column="2" Margin="10 10 10 10">...</Button>

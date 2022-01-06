@@ -3,6 +3,7 @@ using AVGECTSGrade.MVVM.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
         private ICommand finishButtonCommand;
         private String nameText;
         private String studyText;
-        private String fileNameText;
         private String filePathText;
         private NewFileWindow newFileWindow;
 
@@ -27,7 +27,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
             this.newFileWindow = newFileWindow;
             NameText = "";
             StudyText = "";
-            FileNameText = "";
             FilePathText = "";
         }
 
@@ -63,7 +62,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
         {
             get
             {
-                return (!NameText.Equals("") && !StudyText.Equals("") && !FileNameText.Equals("") && !FilePathText.Equals(""));
+                return (!NameText.Equals("") && !StudyText.Equals("") && !FilePathText.Equals(""));
             }
         }
         public String NameText
@@ -86,16 +85,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("StudyText");
             }
         }
-        public String FileNameText
-        {
-            get { return fileNameText; }
-
-            set
-            {
-                fileNameText = value;
-                NotifyPropertyChanged("FileNameText");
-            }
-        }
         public String FilePathText
         {
             get { return filePathText; }
@@ -109,11 +98,11 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
         public void EnterFilePathCommandExecute()
         {
-            FolderBrowserDialog  folderBrowserDialog = new FolderBrowserDialog();
-            DialogResult result = folderBrowserDialog.ShowDialog();
-            if (result == DialogResult.OK)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "json files (*.json)|*.json";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                FilePathText = folderBrowserDialog.SelectedPath;
+                FilePathText = saveFileDialog.FileName;
             }
         }
 
@@ -123,7 +112,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
         }
         public void FinishButtonCommandExecute()
         {
-
+            File.Create(filePathText);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
