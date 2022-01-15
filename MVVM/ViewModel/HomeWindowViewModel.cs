@@ -37,6 +37,11 @@ namespace AVGECTSGrade.MVVM.ViewModel
         private Subject selectedSubject;
         private string filePath;
 
+        private string averageGrade;
+        private int totalSubjects;
+        private int totalSubjectsInCalculation;
+        private int totalECTS;
+        private int totalECTSInCalculation;
 
         public HomeWindowViewModel()
         {
@@ -162,6 +167,56 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("ShownSubjectList");
             }
         }
+        public string AverageGrade
+        {
+            get { return averageGrade; }
+
+            set
+            {
+                averageGrade = value;
+                NotifyPropertyChanged("AverageGrade");
+            }
+        }
+        public int TotalSubjects
+        {
+            get { return totalSubjects; }
+
+            set
+            {
+                totalSubjects = value;
+                NotifyPropertyChanged("TotalSubjects");
+            }
+        }
+        public int TotalSubjectsInCalculation
+        {
+            get { return totalSubjectsInCalculation; }
+
+            set
+            {
+                totalSubjectsInCalculation = value;
+                NotifyPropertyChanged("TotalSubjectsInCalculation");
+            }
+        }
+        public int TotalECTS
+        {
+            get { return totalECTS; }
+
+            set
+            {
+                totalECTS = value;
+                NotifyPropertyChanged("TotalECTS");
+            }
+        }
+        public int TotalECTSInCalculation
+        {
+            get { return totalECTSInCalculation; }
+
+            set
+            {
+                totalECTSInCalculation = value;
+                NotifyPropertyChanged("TotalECTSInCalculation");
+            }
+        }
         #endregion
 
         #region Command Executes
@@ -198,11 +253,15 @@ namespace AVGECTSGrade.MVVM.ViewModel
         }
         private void AddCommandExecute()
         {
-            SubjectSettingsWindow subjectSettingsWindow = new SubjectSettingsWindow(new Subject("", 0, false));
+            SubjectSettingsWindow subjectSettingsWindow = new SubjectSettingsWindow(new Subject("", 0, 0, false));
             if (subjectSettingsWindow.ShowDialog() == true)
             {
                 ShownSubjectList.Add(subjectSettingsWindow.Subject);
                 SaveAll();
+                if (subjectSettingsWindow.AddAnotherIsChecked == true)
+                {
+                    AddCommandExecute();
+                }
             }
         }
         private void EditCommandExecute()
@@ -242,13 +301,27 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
             InitialDialogVisibility = Visibility.Hidden;
             HomeViewVisibility = Visibility.Visible;
+            SaveAll();
         }
 
-        public void SaveAll()
+        private void SaveAll()
         {
+            UpdateView();
             FileProperty fileProperty = new FileProperty(this.ShownName, this.ShownStudyName, ShownSubjectList);
             string jsonString = JsonConvert.SerializeObject(fileProperty);
             File.WriteAllText(FilePath, jsonString);
+        }
+        private void UpdateView()
+        {
+            TotalSubjects = ShownSubjectList.Count;
+            var onlyCalculatedSubjects = ShownSubjectList.Where(subject => subject.IsCalculated == true).ToList();
+            TotalSubjectsInCalculation = onlyCalculatedSubjects.Count;
+            TotalECTS = ShownSubjectList.Sum(x => Convert.ToInt32(x.ECTS));
+            TotalECTSInCalculation = onlyCalculatedSubjects.Sum(x => Convert.ToInt32(x.ECTS));
+            if (TotalECTSInCalculation != 0)
+            {
+                AverageGrade = (onlyCalculatedSubjects.Sum(x => x.Grade) / TotalSubjectsInCalculation).ToString("0.00");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

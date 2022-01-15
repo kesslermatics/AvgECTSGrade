@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
@@ -14,16 +15,26 @@ namespace AVGECTSGrade.MVVM.ViewModel
     {
         private string subjectNameText;
         private int subjectECTS;
+        private float subjectGrade;
         private bool isCalculated;
+        private bool addAnotherIsChecked;
         private SubjectSettingsWindow subjectSettingsWindow;
         private ICommand cancelCommand;
         private ICommand saveCommand;
+        private Visibility addAnotherVisibility;
         public SubjectSettingsWindowViewModel(SubjectSettingsWindow subjectSettingsWindow, Subject subject) 
         {
             SubjectNameText = subject.Name;
             SubjectECTS = subject.ECTS;
             IsCalculated = subject.IsCalculated;
             this.subjectSettingsWindow = subjectSettingsWindow;
+            if (SubjectNameText.Equals(""))
+            {
+                AddAnotherVisibility = Visibility.Visible;
+            } else
+            {
+                AddAnotherVisibility = Visibility.Hidden;
+            }
         }
 
         #region Public Properties
@@ -48,6 +59,36 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("SubjectECTS");
             }
         }
+        public bool AddAnotherIsChecked
+        {
+            get { return addAnotherIsChecked; }
+
+            set
+            {
+                addAnotherIsChecked = value;
+                NotifyPropertyChanged("AddAnotherIsChecked");
+            }
+        }
+        public Visibility AddAnotherVisibility
+        {
+            get { return addAnotherVisibility; }
+
+            set
+            {
+                addAnotherVisibility = value;
+                NotifyPropertyChanged("AddAnotherVisibility");
+            }
+        }
+        public float SubjectGrade
+        {
+            get { return subjectGrade; }
+
+            set
+            {
+                subjectGrade = value;
+                NotifyPropertyChanged("SubjectGrade");
+            }
+        }
         public bool IsCalculated
         {
             get { return isCalculated; }
@@ -69,7 +110,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
         {
             get
             {
-                return saveCommand ?? (saveCommand = new CommandHandler(() => SaveCommandExecute(), () => true));
+                return saveCommand ?? (saveCommand = new CommandHandler(() => SaveCommandExecute(), () => (!SubjectNameText.Equals("") && SubjectECTS != 0 && SubjectGrade != 0)));
             }
         }
 
@@ -84,8 +125,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
         }
         public void SaveCommandExecute()
         {
-            this.subjectSettingsWindow.Subject = new Subject(SubjectNameText, SubjectECTS, IsCalculated);
+            this.subjectSettingsWindow.Subject = new Subject(SubjectNameText, SubjectECTS, SubjectGrade, IsCalculated);
             this.subjectSettingsWindow.DialogResult = true;
+            this.subjectSettingsWindow.AddAnotherIsChecked = AddAnotherIsChecked;
             this.subjectSettingsWindow.Close();
         }
 

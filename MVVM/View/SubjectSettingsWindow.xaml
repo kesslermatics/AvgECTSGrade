@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Subject Settings" SizeToContent="Height" ResizeMode="NoResize" Width="800" Style="{DynamicResource CustomWindowStyleWithoutToolBar}" WindowStyle="SingleBorderWindow">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -17,12 +19,19 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Margin="10" Grid.Row="0" Grid.Column="0" Content="Subject Name"></Label>
-        <Label Margin="10" Grid.Row="0" Grid.Column="1" Content="Subject ECTS"></Label>
+        <Label Margin="10" Grid.Row="0" Grid.Column="1" Content="Subject Grade"></Label>
+        <Label Margin="10" Grid.Row="0" Grid.Column="2" Content="Subject ECTS"></Label>
         <TextBox Padding="10" Margin="10" Grid.Row="1" Grid.Column="0" VerticalContentAlignment="Center" ToolTip="Subject Name" Text="{Binding SubjectNameText}"></TextBox>
-        <TextBox Padding="10" Margin="10" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" ToolTip="Subject ECTS" Text="{Binding SubjectECTS}"></TextBox>
+        <TextBox Padding="10" Margin="10" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" ToolTip="Subject Grade" Text="{Binding SubjectGrade}"></TextBox>
+        <TextBox Padding="10" Margin="10" Grid.Row="1" Grid.Column="2" VerticalContentAlignment="Center" ToolTip="Subject ECTS" Text="{Binding SubjectECTS}"></TextBox>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <Button Margin="10" Padding="10" Width="100" Command="{Binding CancelCommand}">Cancel</Button>
             <Button Margin="10" Padding="10" Width="100" Command="{Binding SaveCommand}">Save</Button>
+            <CheckBox Margin="10" Padding="10" Visibility="{Binding AddAnotherVisibility}" IsChecked="{Binding AddAnotherIsChecked}" FontSize="10" Content=" Add another subject">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
         </StackPanel>
     </Grid>
 </Window>

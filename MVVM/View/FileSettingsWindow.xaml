@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="File Settings" SizeToContent="Height" ResizeMode="NoResize" Width="800" Style="{DynamicResource CustomWindowStyleWithoutToolBar}" WindowStyle="SingleBorderWindow">
     
     <StackPanel>

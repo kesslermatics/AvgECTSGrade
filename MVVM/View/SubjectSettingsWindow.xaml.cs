@@ -22,6 +22,7 @@ namespace AVGECTSGrade.MVVM.View
     public partial class SubjectSettingsWindow : Window
     {
         public Subject Subject;
+        public bool AddAnotherIsChecked;
         public SubjectSettingsWindow(Subject subject)
         {
             InitializeComponent();

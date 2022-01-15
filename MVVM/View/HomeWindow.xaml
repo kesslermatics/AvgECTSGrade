@@ -62,6 +62,7 @@
                     <ListView.View>
                             <GridView>
                                 <GridViewColumn ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="600" Header="Subject" DisplayMemberBinding="{Binding Path=Name}"/>
+                                <GridViewColumn Width="100" Header="Grade" DisplayMemberBinding="{Binding Path=Grade}"/>
                                 <GridViewColumn Width="100" Header="ECTS" DisplayMemberBinding="{Binding Path=ECTS}"/>
                             <GridViewColumn Header="Calculate?">
                                 <GridViewColumn.CellTemplate>
