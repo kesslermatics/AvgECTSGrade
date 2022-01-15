@@ -1,4 +1,5 @@
-﻿using AVGECTSGrade.MVVM.ViewModel;
+﻿using AVGECTSGrade.MVVM.Model;
+using AVGECTSGrade.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace AVGECTSGrade.MVVM.View
     /// </summary>
     public partial class NewFileWindow : Window
     {
+        public string FilePath;
         public NewFileWindow()
         {
             InitializeComponent();

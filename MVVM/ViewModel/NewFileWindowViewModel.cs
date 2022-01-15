@@ -1,11 +1,14 @@
 ﻿using AVGECTSGrade.MVVM.Model;
 using AVGECTSGrade.MVVM.View;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -109,10 +112,22 @@ namespace AVGECTSGrade.MVVM.ViewModel
         public void CancelButtonCommandExecute()
         {
             newFileWindow.Close();
+            newFileWindow.DialogResult = false;
         }
         public void FinishButtonCommandExecute()
         {
-            File.Create(filePathText);
+            newFileWindow.DialogResult = true;
+
+            var list = new ObservableCollection<Subject>();
+            list.Add(new Subject("Programmieren 1", 9));
+            list.Add(new Subject("Programmieren 2", 12));
+            FileProperty fileProperty = new FileProperty(this.nameText, this.studyText, list);
+            string jsonString = JsonConvert.SerializeObject(fileProperty);
+            File.WriteAllText(filePathText, jsonString);
+
+            newFileWindow.FilePath = filePathText;
+
+            newFileWindow.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

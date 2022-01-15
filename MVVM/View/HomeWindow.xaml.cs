@@ -23,5 +23,6 @@ namespace AVGECTSGrade.MVVM.View
         {
             InitializeComponent();
         }
+
     }
 }

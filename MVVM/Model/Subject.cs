@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace AVGECTSGrade.MVVM.Model
 {
-    internal class Subject
+    public class Subject
     {
-        private String name;
-        private int ects;
-
+        public String Name { get; set; }
+        public int ECTS { get; set; }
         public Subject(String name, int ects)
         {
-            this.name = name;
-            this.ects = ects;   
+            this.Name = name;
+            this.ECTS = ects;   
         }
     }
 }
