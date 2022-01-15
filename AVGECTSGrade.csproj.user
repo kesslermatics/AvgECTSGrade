@@ -2,12 +2,18 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="MVVM\View\NewFileWindow.xaml.cs">
+    <Compile Update="MVVM\View\FileSettingsWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\SubjectSettingsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MVVM\View\NewFileWindow.xaml">
+    <Page Update="MVVM\View\FileSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\SubjectSettingsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

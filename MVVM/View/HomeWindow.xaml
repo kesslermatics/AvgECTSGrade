@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:t="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
         Title="Average ECTS-Grade Calculator" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
@@ -19,16 +20,14 @@
                 <MenuItem Header="New" Command="{Binding CreateNewFileCommand}"/>
                 <MenuItem Header="Open" Command="{Binding OpenExistingFileCommand}" InputGestureText="CTRL+O"/>
                 <Separator />
-                <MenuItem Header="Save" InputGestureText="CTRL+S" IsEnabled="False"/>
-                <Separator />
-                <MenuItem Header="Close File" InputGestureText="CTRL+S" IsEnabled="False"/>
+                <MenuItem Header="Edit File" Command="{Binding EditExistingFileCommand}" Visibility="{Binding HomeViewVisibility}"/>
                 <Separator />
                 <MenuItem Header="Exit" />
             </MenuItem>
         </Menu>
 
         <StackPanel DockPanel.Dock="Bottom" Background="{DynamicResource WindowFooterBarColor}">
-            <TextBlock Text="Project: TheBestCypress" Padding="5" Foreground="{DynamicResource ControlFooterTextColour}"></TextBlock>
+            <TextBlock Text="{Binding FilePath, StringFormat='Filepath: {0}'}" Visibility="{Binding HomeViewVisibility}" Padding="5" Foreground="{DynamicResource ControlFooterTextColour}"></TextBlock>
         </StackPanel>
 
         <Grid>
@@ -46,25 +45,85 @@
 
             <Grid Visibility="{Binding HomeViewVisibility}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="AUTO"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="36" Content="{Binding ShownName}"></Label>
                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="26" Content="{Binding ShownStudyName}"></Label>
-                <ListView FontSize="16" Foreground="White" Margin="50" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ShownSubjectList}">
+
+                <ListView SelectedItem="{Binding SelectedSubject}" x:Name="listView" Grid.Row="2" Grid.Column="0" Margin="50 50 50 0" FontSize="16" Foreground="White" ItemsSource="{Binding ShownSubjectList}">
                     <ListView.View>
-                        <GridView>
-                            <GridViewColumn ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="100" Header="Subject" DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="ECTS" DisplayMemberBinding="{Binding Path=ECTS}"/>
+                            <GridView>
+                                <GridViewColumn ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="600" Header="Subject" DisplayMemberBinding="{Binding Path=Name}"/>
+                                <GridViewColumn Width="100" Header="ECTS" DisplayMemberBinding="{Binding Path=ECTS}"/>
+                            <GridViewColumn Header="Calculate?">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <CheckBox IsChecked="{Binding Path=IsCalculated, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Checked">
+                                                        <i:InvokeCommandAction Command="{Binding ElementName=listView, Path=DataContext.CheckBoxClickedCommand}"
+                                                       CommandParameter="{Binding}"/>
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="Unchecked">
+                                                        <i:InvokeCommandAction Command="{Binding ElementName=listView, Path=DataContext.CheckBoxClickedCommand}"
+                                                       CommandParameter="{Binding}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <CheckBox.LayoutTransform>
+                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                </CheckBox.LayoutTransform>
+                                            </CheckBox>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
-                    </ListView.View>
-                </ListView>
+                        </ListView.View>
+                    </ListView>
+                    
+                
+                <StackPanel Margin="50" Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center">
+                    <Button Padding="15" Margin="0 0 20 0" Width="200" FontSize="20" Command="{Binding AddCommand}">Add</Button>
+                    <Button Padding="15" Margin="0 0 20 0" Width="200" FontSize="20" Command="{Binding EditCommand}">Edit</Button>
+                    <Button Padding="15" Margin="0 0 20 0" Width="200" FontSize="20" Command="{Binding DeleteCommand}">Delete</Button>
+                </StackPanel>
+
+                <Rectangle Grid.Row="2" Grid.Column="1" StrokeThickness="3" Stroke="{DynamicResource WindowFooterBarColor}" Height="200" Width="200">
+                    
+                </Rectangle>
+
+                <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Average Grade" Margin="0 10 0 10" FontSize="26"/>
+                    <Separator/>
+                    <TextBlock Text="{Binding AverageGrade}" Margin="0 10 0 10" FontSize="36" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Top" Margin="50" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <Grid Margin="0 0 10 0">
+                        <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
+                        <TextBlock Text="{Binding TotalSubjects, StringFormat='Total Subjects: {0}'}" FontSize="16" Margin="10"/>
+                    </Grid>
+                    <Grid Margin="0 0 10 0">
+                        <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
+                        <TextBlock Text="{Binding TotalSubjectsInCalculation, StringFormat='Total Subjects in Calculation: {0}'}" FontSize="16" Margin="10"/>
+                    </Grid>
+                    <Grid Margin="0 0 10 0">
+                        <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
+                        <TextBlock Text="{Binding TotalECTS, StringFormat='Total ECTS: {0}'}" FontSize="16" Margin="10"/>
+                    </Grid>
+                    <Grid Margin="0 0 10 0">
+                        <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
+                        <TextBlock Text="{Binding TotalECTSInCalculation, StringFormat='Total ECTS in Calculation: {0}'}" FontSize="16" Margin="10"/>
+                    </Grid>
+                </StackPanel>
             </Grid>
         </Grid>
     </DockPanel>

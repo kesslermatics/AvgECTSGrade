@@ -1,11 +1,11 @@
-﻿<Window x:Class="AVGECTSGrade.MVVM.View.NewFileWindow"
+﻿<Window x:Class="AVGECTSGrade.MVVM.View.FileSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AVGECTSGrade.MVVM.View" xmlns:vm="clr-namespace:AVGECTSGrade.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="Create A New File" SizeToContent="Height" ResizeMode="NoResize" Width="800" Style="{DynamicResource CustomWindowStyleWithoutToolBar}" WindowStyle="SingleBorderWindow">
+        Title="File Settings" SizeToContent="Height" ResizeMode="NoResize" Width="800" Style="{DynamicResource CustomWindowStyleWithoutToolBar}" WindowStyle="SingleBorderWindow">
     
     <StackPanel>
         <TextBlock FontSize="26" Margin="10">Please Enter Following Information</TextBlock>

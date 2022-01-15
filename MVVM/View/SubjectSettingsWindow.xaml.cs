@@ -17,15 +17,15 @@ using System.Windows.Shapes;
 namespace AVGECTSGrade.MVVM.View
 {
     /// <summary>
-    /// Interaktionslogik für NewFileWindow.xaml
+    /// Interaktionslogik für NewSubjectWindow.xaml
     /// </summary>
-    public partial class NewFileWindow : Window
+    public partial class SubjectSettingsWindow : Window
     {
-        public string FilePath;
-        public NewFileWindow()
+        public Subject Subject;
+        public SubjectSettingsWindow(Subject subject)
         {
             InitializeComponent();
-            this.DataContext = new NewFileWindowViewModel(this);
+            this.DataContext = new SubjectSettingsWindowViewModel(this, subject);
         }
     }
 }

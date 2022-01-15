@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
 {
-    internal class NewFileWindowViewModel : INotifyPropertyChanged
+    internal class FileSettingsWindowViewModel : INotifyPropertyChanged
     {
         private ICommand enterFilePathButtonCommand;
         private ICommand cancelButtonCommand;
@@ -23,14 +23,14 @@ namespace AVGECTSGrade.MVVM.ViewModel
         private String nameText;
         private String studyText;
         private String filePathText;
-        private NewFileWindow newFileWindow;
+        private FileSettingsWindow newFileWindow;
 
-        public NewFileWindowViewModel(NewFileWindow newFileWindow)
+        public FileSettingsWindowViewModel(FileSettingsWindow newFileWindow, string name, string studyName, string filePath)
         {
             this.newFileWindow = newFileWindow;
-            NameText = "";
-            StudyText = "";
-            FilePathText = "";
+            NameText = name;
+            StudyText = studyName;
+            FilePathText = filePath;
         }
 
         public ICommand EnterFilePathButtonCommand
@@ -102,7 +102,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
         public void EnterFilePathCommandExecute()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "json files (*.json)|*.json";
+            saveFileDialog.Filter = "avgGrade files (*.avgGrade)|*.avgGrade";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FilePathText = saveFileDialog.FileName;
@@ -119,8 +119,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
             newFileWindow.DialogResult = true;
 
             var list = new ObservableCollection<Subject>();
-            list.Add(new Subject("Programmieren 1", 9));
-            list.Add(new Subject("Programmieren 2", 12));
             FileProperty fileProperty = new FileProperty(this.nameText, this.studyText, list);
             string jsonString = JsonConvert.SerializeObject(fileProperty);
             File.WriteAllText(filePathText, jsonString);

@@ -23,29 +23,98 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
         private ICommand createNewFileCommand;
         private ICommand openExistingFileCommand;
+        private ICommand editExistingFileCommand;
+        private ICommand addCommand;
+        private ICommand editCommand;
+        private ICommand deleteCommand;
+        private ICommand checkBoxClickedCommand;
 
         private string shownName;
         private string shownStudyName;
         private ObservableCollection<Subject> shownSubjectList;
 
-        public FileProperty FileProperty;
+        private FileProperty FileProperty;
+        private Subject selectedSubject;
         private string filePath;
 
+
+        public HomeWindowViewModel()
+        {
+            InitialDialogVisibility = Visibility.Visible;
+            HomeViewVisibility = Visibility.Hidden;
+        }
+
+        #region Public Properties
         public ICommand CreateNewFileCommand
         {
             get
             {
-                return createNewFileCommand ?? (createNewFileCommand = new CommandHandler(() => CreateNewFileCommandExecute(), () => CanExecuteTrue));
+                return createNewFileCommand ?? (createNewFileCommand = new CommandHandler(() => CreateNewFileCommandExecute(), () => true));
+            }
+        }
+        public ICommand EditExistingFileCommand
+        {
+            get
+            {
+                return editExistingFileCommand ?? (editExistingFileCommand = new CommandHandler(() => EditExistingCommandExecute(), () => true));
             }
         }
         public ICommand OpenExistingFileCommand
         {
             get
             {
-                return openExistingFileCommand ?? (openExistingFileCommand = new CommandHandler(() => OpenExistingFileCommandExecute(), () => CanExecuteTrue));
+                return openExistingFileCommand ?? (openExistingFileCommand = new CommandHandler(() => OpenExistingFileCommandExecute(), () => true));
+            }
+        }
+        public ICommand AddCommand
+        {
+            get
+            {
+                return addCommand ?? (addCommand = new CommandHandler(() => AddCommandExecute(), () => true));
             }
         }
 
+        public ICommand EditCommand
+        {
+            get
+            {
+                return editCommand ?? (editCommand = new CommandHandler(() => EditCommandExecute(), () => { return (selectedSubject != null); }));
+            }
+        }
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ?? (deleteCommand = new CommandHandler(() => DeleteCommandExecute(), () => { return (selectedSubject != null); }));
+            }
+        }
+        public ICommand CheckBoxClickedCommand
+        {
+            get
+            {
+                return checkBoxClickedCommand ?? (checkBoxClickedCommand = new CommandHandler(() => CheckBoxClickedCommandExecute(), () => true));
+            }
+        }
+        public Subject SelectedSubject
+        {
+            get { return selectedSubject; }
+
+            set
+            {
+                selectedSubject = value;
+                NotifyPropertyChanged("SelectedSubject");
+            }
+        }
+        public string FilePath
+        {
+            get { return filePath; }
+
+            set
+            {
+                filePath = value;
+                NotifyPropertyChanged("FilePath");
+            }
+        }
         public Visibility InitialDialogVisibility
         {
             get { return initialDialogVisibility; }
@@ -93,50 +162,71 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("ShownSubjectList");
             }
         }
+        #endregion
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-
-        public HomeWindowViewModel()
-        {
-            InitialDialogVisibility = Visibility.Visible;
-            HomeViewVisibility = Visibility.Hidden;
-        }
-        public bool CanExecuteTrue
-        {
-            get
-            {
-                return true;
-            }
-        }
+        #region Command Executes
         public void CreateNewFileCommandExecute()
         {
-            NewFileWindow newFileWindow = new NewFileWindow();
+            FileSettingsWindow newFileWindow = new FileSettingsWindow("", "", "");
             newFileWindow.Focus();
             if (newFileWindow.ShowDialog() == true)
             {
-                this.filePath = newFileWindow.FilePath;
-                AnalyzeFile(this.filePath);
+                FilePath = newFileWindow.FilePath;
+                AnalyzeFile(FilePath);
+            }
+        }
+        public void EditExistingCommandExecute()
+        {
+            FileSettingsWindow newFileWindow = new FileSettingsWindow(shownName, shownStudyName, filePath);
+            newFileWindow.Focus();
+            if (newFileWindow.ShowDialog() == true)
+            {
+                FilePath = newFileWindow.FilePath;
+                AnalyzeFile(FilePath);
             }
         }
         public void OpenExistingFileCommandExecute()
         {
             OpenFileDialog folderBrowserDialog = new OpenFileDialog();
+            folderBrowserDialog.Filter = "avgGrade files(*.avgGrade) | *.avgGrade";
             DialogResult result = folderBrowserDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                this.filePath = folderBrowserDialog.FileName;
-                AnalyzeFile(this.filePath);
+                FilePath = folderBrowserDialog.FileName;
+                AnalyzeFile(FilePath);
             }
         }
-
+        private void AddCommandExecute()
+        {
+            SubjectSettingsWindow subjectSettingsWindow = new SubjectSettingsWindow(new Subject("", 0, false));
+            if (subjectSettingsWindow.ShowDialog() == true)
+            {
+                ShownSubjectList.Add(subjectSettingsWindow.Subject);
+                SaveAll();
+            }
+        }
+        private void EditCommandExecute()
+        {
+            SubjectSettingsWindow subjectSettingsWindow = new SubjectSettingsWindow(SelectedSubject);
+            if (subjectSettingsWindow.ShowDialog() == true)
+            {
+                var found = ShownSubjectList.FirstOrDefault(x => x.Name == SelectedSubject.Name);
+                int i = ShownSubjectList.IndexOf(found);
+                ShownSubjectList[i] = subjectSettingsWindow.Subject;
+                SaveAll();
+            }
+        }
+        private void DeleteCommandExecute()
+        {
+            var found = ShownSubjectList.FirstOrDefault(x => x.Name == SelectedSubject.Name);
+            ShownSubjectList.Remove(found);
+            SaveAll();
+        }
+        private void CheckBoxClickedCommandExecute()
+        {
+            SaveAll();
+        }
+        #endregion
         private void AnalyzeFile(string path)
         {
             string json;
@@ -152,6 +242,22 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
             InitialDialogVisibility = Visibility.Hidden;
             HomeViewVisibility = Visibility.Visible;
+        }
+
+        public void SaveAll()
+        {
+            FileProperty fileProperty = new FileProperty(this.ShownName, this.ShownStudyName, ShownSubjectList);
+            string jsonString = JsonConvert.SerializeObject(fileProperty);
+            File.WriteAllText(FilePath, jsonString);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }

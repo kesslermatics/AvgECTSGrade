@@ -10,10 +10,12 @@ namespace AVGECTSGrade.MVVM.Model
     {
         public String Name { get; set; }
         public int ECTS { get; set; }
-        public Subject(String name, int ects)
+        public bool IsCalculated { get; set; }
+        public Subject(String name, int ects, bool isCalculated)
         {
             this.Name = name;
-            this.ECTS = ects;   
+            this.ECTS = ects;
+            this.IsCalculated = isCalculated;
         }
     }
 }
