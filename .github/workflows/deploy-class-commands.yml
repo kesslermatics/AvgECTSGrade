@@ -6,7 +6,7 @@ on:
       - "avgGrade/v*"
 
 env:
-  PROJECT_PATH: AvgECTSGrade/AVGECTSGrade.csproj
+  PROJECT_PATH: AVGECTSGrade.csproj
 
 jobs:
   deploy:
