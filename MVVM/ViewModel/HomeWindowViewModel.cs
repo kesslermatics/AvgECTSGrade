@@ -318,9 +318,14 @@ namespace AVGECTSGrade.MVVM.ViewModel
             TotalSubjectsInCalculation = onlyCalculatedSubjects.Count;
             TotalECTS = ShownSubjectList.Sum(x => Convert.ToInt32(x.ECTS));
             TotalECTSInCalculation = onlyCalculatedSubjects.Sum(x => Convert.ToInt32(x.ECTS));
-            if (TotalECTSInCalculation != 0)
+            if (TotalECTS != 0)
             {
-                AverageGrade = (onlyCalculatedSubjects.Sum(x => x.Grade) / TotalSubjectsInCalculation).ToString("0.00");
+                float total = 0;
+                foreach (var subject in onlyCalculatedSubjects)
+                {
+                    total += subject.Grade * subject.ECTS;
+                }
+                AverageGrade = (total / TotalECTSInCalculation).ToString("0.00");
             }
         }
 

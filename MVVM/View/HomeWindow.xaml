@@ -9,6 +9,8 @@
         mc:Ignorable="d"
         Title="Average ECTS-Grade Calculator" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}"
+        ResizeMode="CanResizeWithGrip"
+        MinHeight="900" MinWidth="1600"
         Style="{DynamicResource CustomWindowStyle}" WindowStyle="None" >
     <Window.DataContext>
         <vm:HomeWindowViewModel/>
@@ -58,10 +60,15 @@
                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="36" Content="{Binding ShownName}"></Label>
                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="26" Content="{Binding ShownStudyName}"></Label>
 
-                <ListView SelectedItem="{Binding SelectedSubject}" x:Name="listView" Grid.Row="2" Grid.Column="0" Margin="50 50 50 0" FontSize="16" Foreground="White" ItemsSource="{Binding ShownSubjectList}">
+                <ListView SelectedItem="{Binding SelectedSubject}" x:Name="listView" Grid.Row="2" Grid.Column="0" Margin="25 50 25 0" FontSize="16" Foreground="White" ItemsSource="{Binding ShownSubjectList}">
                     <ListView.View>
                             <GridView>
-                                <GridViewColumn ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="600" Header="Subject" DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="600" Header="Subject" DisplayMemberBinding="{Binding Path=Name}"/>
                                 <GridViewColumn Width="100" Header="Grade" DisplayMemberBinding="{Binding Path=Grade}"/>
                                 <GridViewColumn Width="100" Header="ECTS" DisplayMemberBinding="{Binding Path=ECTS}"/>
                             <GridViewColumn Header="Calculate?">
@@ -107,7 +114,8 @@
                     <Separator/>
                     <TextBlock Text="{Binding AverageGrade}" Margin="0 10 0 10" FontSize="36" HorizontalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel VerticalAlignment="Top" Margin="50" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Top" Margin="50" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                    <StackPanel>
                     <Grid Margin="0 0 10 0">
                         <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
                         <TextBlock Text="{Binding TotalSubjects, StringFormat='Total Subjects: {0}'}" FontSize="16" Margin="10"/>
@@ -116,6 +124,8 @@
                         <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
                         <TextBlock Text="{Binding TotalSubjectsInCalculation, StringFormat='Total Subjects in Calculation: {0}'}" FontSize="16" Margin="10"/>
                     </Grid>
+                </StackPanel>
+                <StackPanel>
                     <Grid Margin="0 0 10 0">
                         <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
                         <TextBlock Text="{Binding TotalECTS, StringFormat='Total ECTS: {0}'}" FontSize="16" Margin="10"/>
@@ -124,6 +134,7 @@
                         <Rectangle Fill="{DynamicResource WindowLighterBackground}"/>
                         <TextBlock Text="{Binding TotalECTSInCalculation, StringFormat='Total ECTS in Calculation: {0}'}" FontSize="16" Margin="10"/>
                     </Grid>
+                </StackPanel>
                 </StackPanel>
             </Grid>
         </Grid>
