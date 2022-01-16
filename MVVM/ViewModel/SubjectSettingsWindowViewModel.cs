@@ -11,6 +11,9 @@ using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
 {
+    /// <summary>
+    /// Databinding of <see cref="SubjectSettingsWindow"/>
+    /// </summary>
     public class SubjectSettingsWindowViewModel : INotifyPropertyChanged
     {
         private string subjectNameText;
@@ -38,7 +41,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
         }
 
         #region Public Properties
-
         public String SubjectNameText
         {
             get { return subjectNameText; }
@@ -117,7 +119,6 @@ namespace AVGECTSGrade.MVVM.ViewModel
         #endregion
 
         #region Command Executes
-
         public void CancelCommandExecute()
         {
             this.subjectSettingsWindow.DialogResult = false;
@@ -133,7 +134,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
         #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)

@@ -15,6 +15,9 @@ using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
 {
+    /// <summary>
+    /// Databinding of <see cref="FileSettingsWindow"/>
+    /// </summary>
     internal class FileSettingsWindowViewModel : INotifyPropertyChanged
     {
         private ICommand enterFilePathButtonCommand;
@@ -25,7 +28,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
         private String filePathText;
         private FileSettingsWindow newFileWindow;
 
-        public FileSettingsWindowViewModel(FileSettingsWindow newFileWindow, string name, string studyName, string filePath)
+        public FileSettingsWindowViewModel(FileSettingsWindow ?newFileWindow, string name, string studyName, string filePath)
         {
             this.newFileWindow = newFileWindow;
             NameText = name;
@@ -33,18 +36,19 @@ namespace AVGECTSGrade.MVVM.ViewModel
             FilePathText = filePath;
         }
 
+        #region Public Properties
         public ICommand EnterFilePathButtonCommand
         {
             get
             {
-                return enterFilePathButtonCommand ?? (enterFilePathButtonCommand = new CommandHandler(() => EnterFilePathCommandExecute(), () => CanExecuteTrue));
+                return enterFilePathButtonCommand ?? (enterFilePathButtonCommand = new CommandHandler(() => EnterFilePathCommandExecute(), () => true));
             }
         }
         public ICommand CancelButtonCommand
         {
             get
             {
-                return cancelButtonCommand ?? (cancelButtonCommand = new CommandHandler(() => CancelButtonCommandExecute(), () => CanExecuteTrue));
+                return cancelButtonCommand ?? (cancelButtonCommand = new CommandHandler(() => CancelButtonCommandExecute(), () => true));
             }
         }
         public ICommand FinishButtonCommand
@@ -54,21 +58,16 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 return finishButtonCommand ?? (finishButtonCommand = new CommandHandler(() => FinishButtonCommandExecute(), () => FinishCanExecute));
             }
         }
-        public bool CanExecuteTrue
-        {
-            get
-            {
-                return true;
-            }
-        }
         public bool FinishCanExecute
         {
             get
             {
-                return (!NameText.Equals("") && !StudyText.Equals("") && !FilePathText.Equals(""));
+                if (NameText != null && StudyText != null && FilePathText != null)
+                    return (!NameText.Equals("") && !StudyText.Equals("") && !FilePathText.Equals(""));
+                return false;
             }
         }
-        public String NameText
+        public String? NameText
         {
             get { return nameText; }
 
@@ -78,7 +77,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("NameText");
             }
         }
-        public String StudyText
+        public String? StudyText
         {
             get { return studyText; }
 
@@ -88,7 +87,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("StudyText");
             }
         }
-        public String FilePathText
+        public String? FilePathText
         {
             get { return filePathText; }
 
@@ -98,7 +97,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
                 NotifyPropertyChanged("FilePathText");
             }
         }
+        #endregion
 
+        #region Command Executes
         public void EnterFilePathCommandExecute()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -127,8 +128,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
 
             newFileWindow.Close();
         }
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)

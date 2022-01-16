@@ -1,0 +1,13 @@
+﻿[*.cs]
+
+# CS8618: Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
+dotnet_diagnostic.CS8618.severity = silent
+
+# CS8601: Mögliche Nullverweiszuweisung.
+dotnet_diagnostic.CS8601.severity = silent
+
+# CS8604: Mögliches Nullverweisargument.
+dotnet_diagnostic.CS8604.severity = silent
+
+# CS8602: Dereferenzierung eines möglichen Nullverweises.
+dotnet_diagnostic.CS8602.severity = silent

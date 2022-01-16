@@ -16,6 +16,9 @@ using System.Windows.Input;
 
 namespace AVGECTSGrade.MVVM.ViewModel
 {
+    /// <summary>
+    /// Databinding of <see cref="HomeWindow"/>
+    /// </summary>
     internal class HomeWindowViewModel : INotifyPropertyChanged
     {
         private Visibility initialDialogVisibility;
@@ -286,6 +289,11 @@ namespace AVGECTSGrade.MVVM.ViewModel
             SaveAll();
         }
         #endregion
+
+        /// <summary>
+        /// This method deserializes the given file and converts it into a subject object
+        /// </summary>
+        /// <param name="path"></param>
         private void AnalyzeFile(string path)
         {
             string json;
@@ -303,7 +311,9 @@ namespace AVGECTSGrade.MVVM.ViewModel
             HomeViewVisibility = Visibility.Visible;
             SaveAll();
         }
-
+        /// <summary>
+        /// This method saves the current state and serializes the subject object into the given file
+        /// </summary>
         private void SaveAll()
         {
             UpdateView();
@@ -311,6 +321,10 @@ namespace AVGECTSGrade.MVVM.ViewModel
             string jsonString = JsonConvert.SerializeObject(fileProperty);
             File.WriteAllText(FilePath, jsonString);
         }
+        /// <summary>
+        /// This method calculates the grade and updates the view accordingly.
+        /// It has to get called everytime something in the view has updated e.g. checkboxes checked
+        /// </summary>
         private void UpdateView()
         {
             TotalSubjects = ShownSubjectList.Count;
@@ -329,7 +343,7 @@ namespace AVGECTSGrade.MVVM.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
