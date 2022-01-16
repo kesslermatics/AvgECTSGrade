@@ -9,17 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Themes\Logos\logo.ico" />
+    <None Remove="Themes\Logos\logoglow.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapplo.CaliburnMicro.Metro" Version="2.1.20" />
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Themes\Logos\" />
+    <None Include=".github\workflows\deploy-class-commands.yml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".github\workflows\deploy-class-commands.yml" />
+    <Resource Include="Themes\Logos\logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Themes\Logos\logoglow.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

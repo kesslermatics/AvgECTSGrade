@@ -4307,6 +4307,7 @@
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Icon" Value="Logos/logoglow.ico"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
         <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
         <Setter Property="WindowChrome.WindowChrome">
